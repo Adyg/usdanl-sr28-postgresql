@@ -182,6 +182,33 @@ COMMENT ON COLUMN food_des.pro_factor IS 'Factor for calculating calories from p
 COMMENT ON COLUMN food_des.fat_factor IS 'Factor for calculating calories from fat.';
 COMMENT ON COLUMN food_des.cho_factor IS 'Factor for calculating calories from carbohydrate.';
 
+
+/**
+* Nutrient Definition File (NUTR_DEF.txt)
+*/
+CREATE TABLE nutr_def (
+    nutr_no varchar(3) NOT NULL,
+    units varchar(7) NOT NULL,
+    tagname varchar(20),
+    nutrdesc varchar(60) NOT NULL,
+    num_dec varchar(1) NOT NULL,
+    sr_order numeric(6) NOT NULL,
+    PRIMARY KEY (nutr_no)
+);
+
+COMMENT ON TABLE nutr_def IS 'A support table to
+the Nutrient Data table. It provides the 3-digit nutrient code, unit of measure, INFOODS
+tagname, and description.';
+COMMENT ON COLUMN nutr_def.nutr_no IS 'Unique 3-digit identifier code for a nutrient.';
+COMMENT ON COLUMN nutr_def.units IS 'Units of measure.';
+COMMENT ON COLUMN nutr_def.tagname IS 'International Network of Food Data Systems
+(INFOODS) Tagnames.';
+COMMENT ON COLUMN nutr_def.nutrdesc IS 'Name of nutrient/food component.';
+COMMENT ON COLUMN nutr_def.num_dec IS 'Number of decimal places to which a nutrient value is
+rounded.';
+COMMENT ON COLUMN nutr_def.sr_order IS 'Used to sort nutrient records in the same order as
+various reports produced from SR.';
+
 /**
 * Nutrient Data File (NUT_DATA.txt)
 */
@@ -249,3 +276,67 @@ evaluation of sample plan, sample handling,
 analytical method, analytical quality control, and
 number of samples analyzed. Not included in this
 release, but is planned for future releases.';
+
+/**
+* Weight File (WEIGHT.txt)
+*/
+CREATE TABLE weight (
+    ndb_no varchar(5) NOT NULL REFERENCES food_des (ndb_no),
+    seq varchar(2) NOT NULL,
+    amount numeric(5, 3) NOT NULL,
+    msre_desc varchar(84) NOT NULL,
+    gm_wgt numeric(7, 1) NOT NULL,
+    num_data_pts numeric(3),
+    std_dev numeric(7, 3),
+    PRIMARY KEY (ndb_no, seq)
+);
+
+COMMENT ON TABLE weight IS 'Contains the weight in grams of
+a number of common measures for each food item.';
+COMMENT ON COLUMN weight.ndb_no IS '5-digit Nutrient Databank number that uniquely
+identifies a food item. If this field is defined as
+numeric, the leading zero will be lost.';
+COMMENT ON COLUMN weight.seq IS 'Sequence number.';
+COMMENT ON COLUMN weight.amount IS 'Unit modifier (for example, 1 in "1 cup").';
+COMMENT ON COLUMN weight.msre_desc IS 'Description (for example, cup, diced, and 1-inch pieces).';
+COMMENT ON COLUMN weight.gm_wgt IS 'Gram weight.';
+COMMENT ON COLUMN weight.num_data_pts IS 'Number of data points.';
+COMMENT ON COLUMN weight.std_dev IS 'Standard deviation.';
+
+
+/**
+* LanguaL Factor File (LANGUAL.txt)
+*/
+CREATE TABLE langual (
+    ndb_no varchar(5) NOT NULL REFERENCES food_des (ndb_no),
+    factor_code varchar(5) NOT NULL REFERENCES langdesc (factor_code),
+    PRIMARY KEY (ndb_no, factor_code)
+);
+
+COMMENT ON TABLE langual IS 'Support table to the
+Food Description table and contains the factors from the LanguaL Thesaurus used to
+code a particular food.';
+COMMENT ON COLUMN langual.ndb_no IS '5-digit Nutrient Databank number that uniquely
+identifies a food item. If this field is defined as
+numeric, the leading zero will be lost.';
+COMMENT ON COLUMN langual.factor_code IS 'The LanguaL factor from the Thesaurus.';
+
+
+/**
+* Sources of Data Link File (DATSRCLN.txt)
+*/
+CREATE TABLE datsrcln (
+    ndb_no varchar(5) NOT NULL REFERENCES food_des (ndb_no),
+    nutr_no varchar(3) NOT NULL REFERENCES nutr_def (nutr_no),
+    datasrc_id varchar(6) NOT NULL REFERENCES data_src (datasrc_id),
+    PRIMARY KEY (ndb_no, nutr_no, datasrc_id)
+);
+
+COMMENT ON TABLE datsrcln IS 'Used to link
+the Nutrient Data table with the Sources of Data table. It is needed to resolve the many-to-
+many relationship between the two tables.';
+COMMENT ON COLUMN datsrcln.ndb_no IS '5-digit Nutrient Databank number that uniquely
+identifies a food item. If this field is defined as
+numeric, the leading zero will be lost.';
+COMMENT ON COLUMN datsrcln.nutr_no IS 'Unique 3-digit identifier code for a nutrient.';
+COMMENT ON COLUMN datsrcln.datasrc_id IS 'Unique ID identifying the reference/source.';
