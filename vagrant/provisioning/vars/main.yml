@@ -1,0 +1,9 @@
+---
+ruby_install_from_source: true
+ruby_download_url: https://cache.ruby-lang.org/pub/ruby/2.4/ruby-2.4.0.tar.gz
+ruby_version: 2.4.0
+ruby_install_bundler: true
+ruby_install_gems: ['therubyracer']
+ansible_user: vagrant
+
+nodejs_version: '6.x'

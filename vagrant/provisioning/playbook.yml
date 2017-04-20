@@ -1,0 +1,33 @@
+- hosts: all
+  become: yes
+
+  vars_files:
+    - vars/main.yml
+
+  tasks:
+  - name: ensure apt cache is up to date
+    apt: update_cache=yes
+  - name: install the locales package
+    apt: pkg=locales state=present
+  - name: ensure the en_US locale exists
+    locale_gen: name=en_US.UTF-8 state=present
+  - name: ensure the ro_RO locale exists
+    locale_gen: name=ro_RO.UTF-8 state=present        
+  - name: set the locale
+    command: /usr/sbin/update-locale LANG=en_US.UTF-8 --reset    
+  - name: ensure packages are installed
+    apt: name={{item}}
+    with_items:
+        - postgresql-9.3
+        - postgresql-common
+        - libpq-dev
+        - python-psycopg2
+  - name: ensure database is created
+    become: true
+    become_user: postgres
+    postgresql_db: name=usda_sr28 login_user=postgres
+
+  roles:
+    - geerlingguy.ruby
+    - geerlingguy.nodejs
+
