@@ -65,7 +65,7 @@ CREATE TABLE footnote (
     footnt_no varchar(4) NOT NULL,
     footnt_typ varchar(1) NOT NULL,
     nutr_no varchar(3),
-    footnt_txt varchar(200) NOT NULL,
+    footnt_txt varchar(200) NOT NULL
 );
 
 COMMENT ON TABLE footnote IS 'Contains additional information about the food item, household weight, and nutrient value.';
@@ -286,7 +286,7 @@ CREATE TABLE weight (
     amount numeric(5, 3) NOT NULL,
     msre_desc varchar(84) NOT NULL,
     gm_wgt numeric(7, 1) NOT NULL,
-    num_data_pts numeric(3),
+    num_data_pts numeric(4, 0),
     std_dev numeric(7, 3),
     PRIMARY KEY (ndb_no, seq)
 );

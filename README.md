@@ -8,5 +8,9 @@ What it does
 
 Usage
 -----
-1. Create a PostgreSQL database.
-2. Run `./import_usdand.sh postgresUser postgresPassword postgresDatabase`
+1. Create a PostgreSQL database, UTF-8 encoded.
+2. Run `./import_usdand.sh postgresDatabase`
+
+Misc
+----
+An Ansible powered Vagrant box is also included, it reflects the environment this was built and used in.
