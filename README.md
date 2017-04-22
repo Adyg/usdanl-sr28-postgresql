@@ -14,3 +14,5 @@ Usage
 Misc
 ----
 An Ansible powered Vagrant box is also included, it reflects the environment this was built and used in.
+
+If you just want the PostgreSQL database without having to run the script, a pg_dump can be found in usda_sr28.sql
