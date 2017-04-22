@@ -283,7 +283,7 @@ release, but is planned for future releases.';
 CREATE TABLE weight (
     ndb_no varchar(5) NOT NULL REFERENCES food_des (ndb_no),
     seq varchar(2) NOT NULL,
-    amount numeric(5, 3) NOT NULL,
+    amount numeric(6, 3) NOT NULL,
     msre_desc varchar(84) NOT NULL,
     gm_wgt numeric(7, 1) NOT NULL,
     num_data_pts numeric(4, 0),
