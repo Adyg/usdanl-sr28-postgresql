@@ -2,12 +2,12 @@
 * Source Code File (SRC_CD.txt)
 */
 CREATE TABLE src_cd (
-    src_cd varchar(2) NOT NULL,
-    srccd_desc varchar(60) NOT NULL,
+    src_cd text NOT NULL,
+    srccd_desc text NOT NULL,
     PRIMARY KEY (src_cd)
 );
 
-COMMENT ON TABLE src_cd IS 'Contains codes indicating the type of data (analytical, calculated, assumed zero, and so on) in the Nutrient Data table. 
+COMMENT ON TABLE src_cd IS 'Contains codes indicating the type of data (analytical, calculated, assumed zero, and so on) in the Nutrient Data table.
 To improve the usability of the database and to provide values for the FNDDS, NDL staff imputed nutrient values for a number
 of proximate components, total dietary fiber, total sugar, and vitamin and mineral values.';
 COMMENT ON COLUMN src_cd.src_cd IS 'A 2-digit code indicating type of data.';
@@ -18,8 +18,8 @@ COMMENT ON COLUMN src_cd.srccd_desc IS 'Description of source code that identifi
 * Data Derivation Code Description File (DERIV_CD.txt)
 */
 CREATE TABLE deriv_cd (
-    deriv_cd varchar(4) NOT NULL,
-    deriv_desc varchar(120) NOT NULL,
+    deriv_cd text NOT NULL,
+    deriv_desc text NOT NULL,
     PRIMARY KEY (deriv_cd)
 );
 
@@ -33,15 +33,15 @@ COMMENT ON COLUMN deriv_cd.deriv_desc IS 'Description of derivation code giving 
 * Sources of Data File (DATA_SRC.txt)
 */
 CREATE TABLE data_src (
-    datasrc_id varchar(6) NOT NULL,
-    authors varchar(255),
-    title varchar(255) NOT NULL,
-    year varchar(4),
-    journal varchar(135),
-    vol_city varchar(16),
-    issue_state varchar(5),
-    start_page varchar(5),
-    end_page varchar(5),
+    datasrc_id text NOT NULL,
+    authors text,
+    title text NOT NULL,
+    year text,
+    journal text,
+    vol_city text,
+    issue_state text,
+    start_page text,
+    end_page text,
     PRIMARY KEY (datasrc_id)
 );
 
@@ -61,11 +61,11 @@ COMMENT ON COLUMN data_src.end_page IS 'Ending page number of article/document.'
 * Footnote File (FOOTNOTE.txt)
 */
 CREATE TABLE footnote (
-    ndb_no varchar(5) NOT NULL,
-    footnt_no varchar(4) NOT NULL,
-    footnt_typ varchar(1) NOT NULL,
-    nutr_no varchar(3),
-    footnt_txt varchar(200) NOT NULL
+    ndb_no text NOT NULL,
+    footnt_no text NOT NULL,
+    footnt_typ text NOT NULL,
+    nutr_no text,
+    footnt_txt text NOT NULL
 );
 
 COMMENT ON TABLE footnote IS 'Contains additional information about the food item, household weight, and nutrient value.';
@@ -93,8 +93,8 @@ COMMENT ON COLUMN footnote.footnt_txt IS 'Footnote text.';
 * LanguaL Factors Description File (LANGDESC.txt)
 */
 CREATE TABLE langdesc (
-    factor_code varchar(5) NOT NULL,
-    description varchar(140) NOT NULL,
+    factor_code text NOT NULL,
+    description text NOT NULL,
     PRIMARY KEY (factor_code)
 );
 
@@ -110,8 +110,8 @@ thesaurus.';
 * Food Group Description File (FD_GROUP.txt)
 */
 CREATE TABLE fd_group(
-    fdgrp_cd varchar(4) NOT NULL,
-    fdgrp_desc varchar(60) NOT NULL,
+    fdgrp_cd text NOT NULL,
+    fdgrp_desc text NOT NULL,
     PRIMARY KEY (fdgrp_cd)
 );
 
@@ -127,16 +127,16 @@ COMMENT ON COLUMN fd_group.fdgrp_desc IS 'Name of food group.';
 * Food Description File (FOOD_DES.txt)
 */
 CREATE TABLE food_des (
-    ndb_no varchar(5) NOT NULL,
-    fdgrp_cd varchar(4) NOT NULL REFERENCES fd_group (fdgrp_cd),
-    long_desc varchar(200) NOT NULL,
-    shrt_desc varchar(60) NOT NULL,
-    comname varchar(100),
-    manufacname varchar(65),
-    survey varchar(1),
-    ref_desc varchar(135),
+    ndb_no text NOT NULL,
+    fdgrp_cd text NOT NULL REFERENCES fd_group (fdgrp_cd),
+    long_desc text NOT NULL,
+    shrt_desc text NOT NULL,
+    comname text,
+    manufacname text,
+    survey text,
+    ref_desc text,
     refuse numeric(2),
-    sciname varchar(65),
+    sciname text,
     n_factor numeric(4, 2),
     pro_factor numeric(4, 2),
     fat_factor numeric(4, 2),
@@ -187,11 +187,11 @@ COMMENT ON COLUMN food_des.cho_factor IS 'Factor for calculating calories from c
 * Nutrient Definition File (NUTR_DEF.txt)
 */
 CREATE TABLE nutr_def (
-    nutr_no varchar(3) NOT NULL,
-    units varchar(7) NOT NULL,
-    tagname varchar(20),
-    nutrdesc varchar(60) NOT NULL,
-    num_dec varchar(1) NOT NULL,
+    nutr_no text NOT NULL,
+    units text NOT NULL,
+    tagname text,
+    nutrdesc text NOT NULL,
+    num_dec text NOT NULL,
     sr_order numeric(6) NOT NULL,
     PRIMARY KEY (nutr_no)
 );
@@ -213,24 +213,24 @@ various reports produced from SR.';
 * Nutrient Data File (NUT_DATA.txt)
 */
 CREATE TABLE nut_data(
-    ndb_no varchar(5) NOT NULL REFERENCES food_des (ndb_no),
-    nutr_no varchar(3) NOT NULL REFERENCES nutr_def (nutr_no),
+    ndb_no text NOT NULL REFERENCES food_des (ndb_no),
+    nutr_no text NOT NULL REFERENCES nutr_def (nutr_no),
     nutr_val numeric(10, 3) NOT NULL,
     num_data_pts numeric(5, 0) NOT NULL,
     std_error numeric(8, 3),
-    src_cd varchar(2) NOT NULL,
-    deriv_cd varchar(4),
-    ref_ndb_no varchar(5),
-    add_nutr_mark varchar(1),
+    src_cd text NOT NULL,
+    deriv_cd text,
+    ref_ndb_no text,
+    add_nutr_mark text,
     num_studies numeric(2),
     min numeric(10, 3),
     max numeric(10, 3),
     df numeric(4),
     low_eb numeric(10, 3),
     up_eb numeric(10, 3),
-    stat_cmt varchar(10),
-    addmod_date varchar(10),
-    cc varchar(1),
+    stat_cmt text,
+    addmod_date text,
+    cc text,
     PRIMARY KEY (ndb_no, nutr_no)
 
 );
@@ -281,10 +281,10 @@ release, but is planned for future releases.';
 * Weight File (WEIGHT.txt)
 */
 CREATE TABLE weight (
-    ndb_no varchar(5) NOT NULL REFERENCES food_des (ndb_no),
-    seq varchar(2) NOT NULL,
+    ndb_no text NOT NULL REFERENCES food_des (ndb_no),
+    seq text NOT NULL,
     amount numeric(6, 3) NOT NULL,
-    msre_desc varchar(84) NOT NULL,
+    msre_desc text NOT NULL,
     gm_wgt numeric(7, 1) NOT NULL,
     num_data_pts numeric(4, 0),
     std_dev numeric(7, 3),
@@ -308,8 +308,8 @@ COMMENT ON COLUMN weight.std_dev IS 'Standard deviation.';
 * LanguaL Factor File (LANGUAL.txt)
 */
 CREATE TABLE langual (
-    ndb_no varchar(5) NOT NULL REFERENCES food_des (ndb_no),
-    factor_code varchar(5) NOT NULL REFERENCES langdesc (factor_code),
+    ndb_no text NOT NULL REFERENCES food_des (ndb_no),
+    factor_code text NOT NULL REFERENCES langdesc (factor_code),
     PRIMARY KEY (ndb_no, factor_code)
 );
 
@@ -326,9 +326,9 @@ COMMENT ON COLUMN langual.factor_code IS 'The LanguaL factor from the Thesaurus.
 * Sources of Data Link File (DATSRCLN.txt)
 */
 CREATE TABLE datsrcln (
-    ndb_no varchar(5) NOT NULL REFERENCES food_des (ndb_no),
-    nutr_no varchar(3) NOT NULL REFERENCES nutr_def (nutr_no),
-    datasrc_id varchar(6) NOT NULL REFERENCES data_src (datasrc_id),
+    ndb_no text NOT NULL REFERENCES food_des (ndb_no),
+    nutr_no text NOT NULL REFERENCES nutr_def (nutr_no),
+    datasrc_id text NOT NULL REFERENCES data_src (datasrc_id),
     PRIMARY KEY (ndb_no, nutr_no, datasrc_id)
 );
 
